@@ -1,0 +1,21 @@
+version: "3.8"
+
+x-build-python: &build-python
+  build:
+    context: ./docker
+    dockerfile: Dockerfile_python
+  working_dir: /tmp
+  volumes:
+    - ./:/tmp
+
+services:
+  selenium:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile_selenium
+
+  python:
+    <<: *build-python
+    depends_on:
+    - "selenium"
+    command: ["./wait-for-it.sh", "selenium:4444", "--", "python", "fetchHospitalPDF.py"]

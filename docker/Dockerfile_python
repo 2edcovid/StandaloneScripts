@@ -1,0 +1,1 @@
+FROM 2edcovid/python_data_scraping:latest
